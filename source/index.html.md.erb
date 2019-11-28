@@ -1,0 +1,219 @@
+---
+title: QI API Reference
+
+language_tabs: # must be one of https://git.io/vQNgJ
+  - html
+  - JSON
+
+toc_footers:
+  - <a href='#'>Strictly Private and Confidential </a>
+
+includes:
+  - errors
+  - test-images.md.erb
+
+search: true
+---
+
+# Get Started with Qi-Pay Hosted Payment Page 
+
+This guide walks you through the steps required to integrate with Qi-Pay platform using hosted payment page method. Both domestic Qi cards as well as international cards are accepted. The advantage of this integration method is it requires minimum development on the merchant side. Nothing is required for this method to work except the merchant ID and API secret key corresponding to the merhcant (i.e. no JS files or SDK's to be installed on the merchant servers). These values could be crearted by the merchant directly via the self service portal which shall be provided upon project progress. 
+
+
+# Authentication
+
+> To authorize, you have to get your API public key from Qi testing team. The below value is specifically generated to the project in hand:
+
+```API public key```
+```
+key = 'sbpb_NjNjNzkyN2ItYmQ1YS00NWQ4LWEwYzAtYTY2ODI2Njg4Y2Mw' 
+```
+
+```Merchant ID```
+```
+ID = '36869324'
+```
+
+<aside class="notice">
+This value is created for the sole purpose of being used in this initiative with limited functioanlities associated. Upon project progress and proper documents are signed the full functionalities shall be proivded and merchant shall be able to manage their own keys. 
+</aside>
+
+# Payment Page 
+
+## Flow
+
+Hosted Payment Page integration method uses HTML forms to pass information to the gateway about the transaction (e.g. order amount, currency, merchant ID, ...etc.)
+The gateway inturn takes the responsbility of gathering payment information from the cardholder and process the transaction further. 
+
+The below steps explain the expexted flow (the diagram at the end of page also explains the flow):
+
+1. When the cardholder is done with his order and wants checkout, merchant web site shall present a button or link to be clicked by the customer
+2. The customer will be redirected to Qi Pay gateway and will be presented by a page to collect card details. The redirect should contain the details of the transaction in one of two ways:
+3. If the card used is Qi card, the gateway will carry on the authentication already in place for Qi cards. Else, if the card is international card, 3DS flow will be invoked. 
+4. Upon receiving the result of the authorisation, Qi Pay gateway will send the results back to merchant web server using one of two methods:
+i. redirect URL in the request
+ii. call-back 
+
+Call-back URL’s	are	used	directly	as	a	server-to-server	connection,	they	do	not	operate	via	the	customers	browser.	As	such,	they	must	be	URL’s	which	can	be	accessed	over	the	public	internet.	Private	URL’s	or	IP	addresses	must	not	be	used.	Only	connections to port	80	or	443	can	be	made. The	Call-back	URL	must	return	with	a	HTTP	status	code	of	‘200	OK’.	Other	status	codes	will	be	taken	to	mean	that	the	request	did	not	complete	as	expected.
+
+
+
+## Request
+
+Requst will be a simple redirect to a URL provided by the gateway. All	payment	requests	must	be	sent	using	the	HTTP	POST	method	to	the	Hosted	Payment	Page	
+gateway	URL: qi-pay.com/gateway/hosted.html 
+
+The below is sample of the minimum mandatory information required to authorise a transaction. 
+
+```html
+example request
+
+<form action="qi-pay.com/gateway/hosted.html"  method="post">
+  <input name="MID" type="hidden" value="2">
+  <input name="ivp_aamountmount" type="hidden" value="19.95">
+  <input name="currency" type="hidden" value="IQD">
+  <input name="test" type="hidden" value="1">
+  <input name="timestamp" type="hidden" value="1293002624">
+  <input name="cartID" type="hidden" value="ABC123">
+  <input name="desc" type="hidden" value="Items">
+  <input name=”additional” type=”hidden” value=”any extra data required”>
+  <input name="digest" type="hidden" value="saskjdfhladskjhfadskljfhaskljhfkssjdfhff">
+  <input type="submit" value="Purchase">
+</form>
+```
+```JSON
+```
+
+## Response 
+Merchant may configure up to three different call-backs, authorised, declined and cancelled respectively. 	These	are	URL’s	which	will	be	called	directly	by	the	payment	gateway	
+and	will	contain	details	of	the	transaction	and	its	status. The	details	will	be	sent	using	the	HTTP	POST	
+method.
+
+Merchant 	can	use	the	same	URL	for	each	event,	in	which	case	you	will	need	to	examine	the	auth_status
+field	to	determine	if	the	call-back is	for	an	authorised	transaction	or	not.
+
+
+
+### Response Elements 
+
+
+Parameter     |  Description
+---------     | -----------
+auth_status   | status of transaction either approved or not.
+auth_code     | authorisation code of the transaction.
+auth_messag   | arbitrary message for auth.
+auth_rrn      | reference number for tracking.
+card_BIN      | first six digits of the card number.
+card_last4    | last four digits of the card number.
+auth_hash     | hash of the transaction.
+auth_UUID     | ID of the authorisation.
+
+
+<aside class="success">
+Remember — a happy kitten is an authenticated kitten!
+</aside>
+
+## Get a Specific Kitten
+
+```ruby
+require 'kittn'
+
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+api.kittens.get(2)
+```
+
+```python
+import kittn
+
+api = kittn.authorize('meowmeowmeow')
+api.kittens.get(2)
+```
+
+```shell
+curl "http://example.com/api/kittens/2"
+  -H "Authorization: meowmeowmeow"
+```
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.get(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+  "name": "Max",
+  "breed": "unknown",
+  "fluffiness": 5,
+  "cuteness": 10
+}
+```
+
+This endpoint retrieves a specific kitten.
+
+<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+
+### HTTP Request
+
+`GET http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the kitten to retrieve
+
+## Delete a Specific Kitten
+
+```ruby
+require 'kittn'
+
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+api.kittens.delete(2)
+```
+
+```python
+import kittn
+
+api = kittn.authorize('meowmeowmeow')
+api.kittens.delete(2)
+```
+
+```shell
+curl "http://example.com/api/kittens/2"
+  -X DELETE
+  -H "Authorization: meowmeowmeow"
+```
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.delete(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+  "deleted" : ":("
+}
+```
+
+This endpoint deletes a specific kitten.
+
+### HTTP Request
+
+`DELETE http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the kitten to delete
+

@@ -1,73 +1,50 @@
 ---
-title: API Reference
+title: QI API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
-  - ruby
-  - python
-  - javascript
+  - html
+  - http
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/lord/slate'>Documentation Powered by Slate</a>
+  - <a href='#'>Strictly Private and Confidential </a>
 
 includes:
   - errors
+  - test-images.md.erb
+
+  
 
 search: true
 ---
 
-# Introduction
+# Get Started with Qi-Pay Hosted Payment Page 
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+This guide walks you through the steps required to integrate with Qi-Pay platform using hosted payment page method. Both domestic Qi cards as well as international cards are accepted. The advantage of this integration method is it requires minimum development on the merchant side. Nothing is required for this method to work except the merchant ID and API secret key corresponding to the merhcant (i.e. no JS files or SDK's to be installed on the merchant servers). These values could be crearted by the merchant directly via the self service portal which shall be provided upon project progress. 
 
-We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
 
 # Authentication
 
-> To authorize, use this code:
+> To authorize, you have to get your API public key from Qi testing team. The below value is specifically generated to the project in hand:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+```API public key```
+```
+key = 'sbpb_NjNjNzkyN2ItYmQ1YS00NWQ4LWEwYzAtYTY2ODI2Njg4Y2Mw' 
 ```
 
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
+```Merchant ID```
 ```
-
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+ID = '36869324'
 ```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-```
-
-> Make sure to replace `meowmeowmeow` with your API key.
-
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+This value is created for the sole purpose of being used in this initiative with limited functioanlities associated. Upon project progress and proper documents are signed the full functionalities shall be proivded and merchant shall be able to manage their own keys. 
 </aside>
 
-# Kittens
+# Payment Page 
 
-## Get All Kittens
+## Flow 
+
+<img src=>
 
 ```ruby
 require 'kittn'
