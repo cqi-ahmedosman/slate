@@ -34,7 +34,7 @@ key = 'sbpb_NjNjNzkyN2ItYmQ1YS00NWQ4LWEwYzAtYTY2ODI2Njg4Y2Mw'
 ID = '36869324'
 ```
 
-<aside class="notice">
+<aside class="warning">
 This value is created for the sole purpose of being used in this initiative with limited functioanlities associated. Upon project progress and proper documents are signed the full functionalities shall be proivded and merchant shall be able to manage their own keys. 
 </aside>
 
@@ -63,14 +63,16 @@ Call-back URL’s	are	used	directly	as	a	server-to-server	connection,	they	do	no
 Requst will be a simple redirect to a URL provided by the gateway. All	payment	requests	must	be	sent	using	the	HTTP	POST	method	to	the	Hosted	Payment	Page	
 gateway	URL: qi-pay.com/gateway/hosted.html 
 
-The below is sample of the minimum mandatory information required to authorise a transaction. 
+This is sample of the minimum mandatory information submitted in the form and required to authorise a transaction. 
+
+Alternatively, HTTP POST call could be made with the information in the request body as json object.
 
 ```html
 example request
 
 <form action="qi-pay.com/gateway/hosted.html"  method="post">
   <input name="MID" type="hidden" value="2">
-  <input name="ivp_aamountmount" type="hidden" value="19.95">
+  <input name="amount" type="hidden" value="19.95">
   <input name="currency" type="hidden" value="IQD">
   <input name="test" type="hidden" value="1">
   <input name="timestamp" type="hidden" value="1293002624">
@@ -81,7 +83,25 @@ example request
   <input type="submit" value="Purchase">
 </form>
 ```
-```JSON
+
+```json
+{
+  "auth-data": {
+     
+    
+        "id": "1",
+        "amount": "5678.78" ,
+        "currency": "IQD" ,
+        "test": "1" ,
+        "timestamp": "1293002624" ,
+        "cartID": "ABC123" ,
+        "desc": "this is a sample cart" ,
+        "add-data": "any extra data required" ,
+        "digest":"11bdb7f3887cf3169a1f7e169453552c08597b220fe3d22535edbf07ad610c14" 
+        
+      
+  }
+}
 ```
 
 ## Response 
@@ -110,52 +130,18 @@ auth_UUID     | ID of the authorisation.
 
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Once	the	customer	has	either	authorised	or	cancelled	the	transaction,	they	can	be	returned	to	the merchant	
+store.	
 </aside>
 
-## Get a Specific Kitten
+<aside class="warning"> 
+It is preferable to adopt the call back URL method rather than the redirect method becasue the customer may close	their	browser	before	
+following	the	link	back.	
+You	can	define	a	different	URL	for	authorised,	declined and	cancelled	transactions.	These	must not	be	used	to	update	your	system	with	the	result	of	the	transaction;
+instead	you	should	use	the	call-back options	for	that
+</aside>
 
-```ruby
-require 'kittn'
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
 ### HTTP Request
 
@@ -169,32 +155,6 @@ ID | The ID of the kitten to retrieve
 
 ## Delete a Specific Kitten
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
-```
 
 > The above command returns JSON structured like this:
 
