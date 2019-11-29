@@ -3,13 +3,13 @@ title: QI API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - html
-  - JSON
+  - json
 
 toc_footers:
   - <a href='#'>Strictly Private and Confidential </a>
 
 includes:
-  - errors
+  - _errors
   - test-images.md.erb
 
 search: true
@@ -22,7 +22,7 @@ This guide walks you through the steps required to integrate with Qi-Pay platfor
 
 # Authentication
 
-> To authorize, you have to get your API public key from Qi testing team. The below value is specifically generated to the project in hand:
+To authorize, you have to get your API public key from Qi testing team. The below value is specifically generated to the project in hand:
 
 ```API public key```
 ```
@@ -82,7 +82,17 @@ example request
   <input name="digest" type="hidden" value="saskjdfhladskjhfadskljfhaskljhfkssjdfhff">
   <input type="submit" value="Purchase">
 </form>
+
+
 ```
+
+The digest is a signature created by signing the concatination of the following field values: 
+
+1. MID
+2. amount
+3. currency
+4. timestamp
+5. cartID
 
 ```json
 {
