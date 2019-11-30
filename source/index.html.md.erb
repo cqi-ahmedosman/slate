@@ -123,9 +123,7 @@ example request
   <input name=”callbackurl-auth” type=”https://place.your.call.back.for.successfull.auth”>
   <input name=”callbackurl-decl” type=”https://place.your.call.back.for.decline”>
   <input name=”callbackurl-cancel” type=”https://place.your.call.back.for.cancel”>
-  
   <input name="digest" type="hidden" value="saskjdfhladskjhfadskljfhaskljhfkssjdfhff">
-  
   <input type="submit" value="Purchase">
 
 </form>
@@ -140,6 +138,10 @@ The digest is a signature created by signing the concatination of the following 
 3. currency
 4. timestamp
 5. cartID
+
+<aside class"warning">
+Full details about the exact list of data elements required is yet to be finalized. 
+</aside>
 
 ```json
 {
