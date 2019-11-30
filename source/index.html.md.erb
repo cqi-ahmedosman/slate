@@ -67,6 +67,47 @@ This is sample of the minimum mandatory information submitted in the form and re
 
 Alternatively, HTTP POST call could be made with the information in the request body as json object.
 
+### Callback URL's
+
+In	order	for	your	system	to	be	updated	with	the	result	of	the	transaction	you	can	configure	three different	call-back addresses.	These	are	URL’s	which	will	be	called	directly	by	the	payment	gateway	
+and	will	contain	details	of	the	transaction	and	its	status. The	details	will	be	sent	using	the	HTTP	POST	
+method. A	different	URL	can	be	defined	for	each	of	the	following	events:
+Transaction	Authorised
+Transaction	Declined
+Transaction	Cancelled
+
+The Callback data will be sent to the merchant server will be authenticated using the same digest used in the request. 
+
+### Callback Fields
+
+
+
+Field     |  Description
+---------     | -----------
+auth_status   | status of transaction either approved or not.
+auth_code     | authorisation code of the transaction.
+auth_messag   | arbitrary message for auth.
+auth_rrn      | reference number for tracking.
+card_BIN      | first six digits of the card number.
+card_last4    | last four digits of the card number.
+auth_hash     | hash of the transaction.
+auth_UUID     | ID of the authorisation.
+
+
+<aside class="success">
+Once	the	customer	has	either	authorised	or	cancelled	the	transaction,	they	can	be	returned	to	the merchant	
+store.	
+</aside>
+
+<aside class="warning"> 
+It is preferable to adopt the call back URL method rather than the redirect method becasue the customer may close	their	browser	before	
+following	the	link	back.	
+You	can	define	a	different	URL	for	authorised,	declined and	cancelled	transactions.	These	must not	be	used	to	update	your	system	with	the	result	of	the	transaction;
+instead	you	should	use	the	call-back options	for	that
+</aside>
+
+
+
 ```html
 example request
 
@@ -79,8 +120,14 @@ example request
   <input name="cartID" type="hidden" value="ABC123">
   <input name="desc" type="hidden" value="Items">
   <input name=”additional” type=”hidden” value=”any extra data required”>
+  <input name=”callbackurl-auth” type=”https://place.your.call.back.for.successfull.auth”>
+  <input name=”callbackurl-decl” type=”https://place.your.call.back.for.decline”>
+  <input name=”callbackurl-cancel” type=”https://place.your.call.back.for.cancel”>
+  
   <input name="digest" type="hidden" value="saskjdfhladskjhfadskljfhaskljhfkssjdfhff">
+  
   <input type="submit" value="Purchase">
+
 </form>
 
 
@@ -108,46 +155,12 @@ The digest is a signature created by signing the concatination of the following 
         "desc": "this is a sample cart" ,
         "add-data": "any extra data required" ,
         "digest":"11bdb7f3887cf3169a1f7e169453552c08597b220fe3d22535edbf07ad610c14" 
+        "callbackurl-auth":"https://place.your.call.back.for.successfull.auth"
+        "callbackurl-decl":"https://place.your.call.back.for.successfull.auth"
+        "callbackurl-cancel":"https://place.your.call.back.for.successfull.auth"
         
       
   }
 }
 ```
-
-## Response 
-Merchant may configure up to three different call-backs, authorised, declined and cancelled respectively. 	These	are	URL’s	which	will	be	called	directly	by	the	payment	gateway	
-and	will	contain	details	of	the	transaction	and	its	status. The	details	will	be	sent	using	the	HTTP	POST	
-method.
-
-Merchant 	can	use	the	same	URL	for	each	event,	in	which	case	you	will	need	to	examine	the	auth_status
-field	to	determine	if	the	call-back is	for	an	authorised	transaction	or	not.
-
-
-
-### Response Elements 
-
-
-Parameter     |  Description
----------     | -----------
-auth_status   | status of transaction either approved or not.
-auth_code     | authorisation code of the transaction.
-auth_messag   | arbitrary message for auth.
-auth_rrn      | reference number for tracking.
-card_BIN      | first six digits of the card number.
-card_last4    | last four digits of the card number.
-auth_hash     | hash of the transaction.
-auth_UUID     | ID of the authorisation.
-
-
-<aside class="success">
-Once	the	customer	has	either	authorised	or	cancelled	the	transaction,	they	can	be	returned	to	the merchant	
-store.	
-</aside>
-
-<aside class="warning"> 
-It is preferable to adopt the call back URL method rather than the redirect method becasue the customer may close	their	browser	before	
-following	the	link	back.	
-You	can	define	a	different	URL	for	authorised,	declined and	cancelled	transactions.	These	must not	be	used	to	update	your	system	with	the	result	of	the	transaction;
-instead	you	should	use	the	call-back options	for	that
-</aside>
 
