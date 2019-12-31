@@ -26,12 +26,12 @@ To authorize, you have to get your API public key from Qi testing team. The belo
 
 ```API public key```
 ```
-key = 'sbpb_NjNjNzkyN2ItYmQ1YS00NWQ4LWEwYzAtYTY2ODI2Njg4Y2Mw' 
+key = 'Basic ZGVtb0Blbmphei50ZWNoOmFzaWMgY21GbmFIVTZORkZ1ZDNJMU5XWkdUWFJ6' 
 ```
 
 ```Merchant ID```
 ```
-ID = '36869324'
+ID = '1234'
 ```
 
 <aside class="warning">
@@ -52,7 +52,7 @@ The below steps explain the expexted flow (the diagram at the end of page also e
 3. If the card used is Qi card, the gateway will carry on the authentication already in place for Qi cards. Else, if the card is international card, 3DS flow will be invoked. 
 4. Upon receiving the result of the authorisation, Qi Pay gateway will send the results back to merchant web server using one of two methods:
 i. redirect URL in the request
-ii. call-back 
+ii. call-back to the URLs provided by the merchant
 
 Call-back URL’s	are	used	directly	as	a	server-to-server	connection,	they	do	not	operate	via	the	customers	browser.	As	such,	they	must	be	URL’s	which	can	be	accessed	over	the	public	internet.	Private	URL’s	or	IP	addresses	must	not	be	used.	Only	connections to port	80	or	443	can	be	made. The	Call-back	URL	must	return	with	a	HTTP	status	code	of	‘200	OK’.	Other	status	codes	will	be	taken	to	mean	that	the	request	did	not	complete	as	expected.
 
