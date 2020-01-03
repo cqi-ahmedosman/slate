@@ -24,9 +24,9 @@ This guide walks you through the steps required to integrate with Qi-Pay platfor
 
 To authorize, you have to get your API public key from Qi testing team. The below value is specifically generated to the project in hand:
 
-```API public key```
+```API Public Key```
 ```
-key = 'Basic ZGVtb0Blbmphei50ZWNoOmFzaWMgY21GbmFIVTZORkZ1ZDNJMU5XWkdUWFJ6' 
+= 'Basic ZGVtb0Blbmphei50ZWNoOmFzaWMgY21GbmFIVTZORkZ1ZDNJMU5XWkdUWFJ6' 
 ```
 
 ```Merchant ID```
@@ -61,7 +61,9 @@ Call-back URL’s	are	used	directly	as	a	server-to-server	connection,	they	do	no
 ## Request
 
 Requst will be a simple redirect to a URL provided by the gateway. All	payment	requests	must	be	sent	using	the	HTTP	POST	method	to	the	Hosted	Payment	Page	
-gateway	URL: qi-pay.com/gateway/hosted.html 
+gateway	URL: https://pay-uat.qi.iq:8080 
+
+The response of that request will be a URL with the Authintication Token as query parameter with the URL to make the merchant website able to open it and redirect the customer to.
 
 This is sample of the minimum mandatory information submitted in the form and required to authorise a transaction. 
 
@@ -108,11 +110,13 @@ instead	you	should	use	the	call-back options	for	that
 
 
 
+
+
 ```html
 example request
 
 <form action="qi-pay.com/gateway/hosted.html"  method="post">
-  <input name="MID" type="hidden" value="2">
+  <input name="MID" type="hidden" value="1234">
   <input name="amount" type="hidden" value="19.95">
   <input name="currency" type="hidden" value="IQD">
   <input name="test" type="hidden" value="1">
@@ -131,6 +135,9 @@ example request
 
 ```
 
+
+
+
 The digest is a signature created by signing the concatination of the following field values: 
 
 1. MID
@@ -144,25 +151,39 @@ Full details about the exact list of data elements required is yet to be finaliz
 </aside>
 
 ```json
+
+Sample Request 
 {
-  "auth-data": {
-     
-    
-        "id": "1",
-        "amount": "5678.78" ,
-        "currency": "IQD" ,
-        "test": "1" ,
-        "timestamp": "1293002624" ,
-        "cartID": "ABC123" ,
-        "desc": "this is a sample cart" ,
-        "add-data": "any extra data required" ,
-        "digest":"11bdb7f3887cf3169a1f7e169453552c08597b220fe3d22535edbf07ad610c14" 
-        "callbackurl-auth":"https://place.your.call.back.for.successfull.auth"
-        "callbackurl-decl":"https://place.your.call.back.for.successfull.auth"
-        "callbackurl-cancel":"https://place.your.call.back.for.successfull.auth"
-        
-      
-  }
+    "MID": "1234",
+    "amount": "13",
+    "currency": "usd",
+    "timestamp": "12-12-2012",
+    "cartID": "Aswdedefdrfe32de4d",
+    "sucessUrl": "https://example.com/success",
+    "failureUrl": "https://example.com/failure",
+    "cancelUrl": "https://example.com/cancel"
+} 
+```
+
+
+```json
+Sample Response 
+{
+  
+    "status": "sucess",
+    "message": "ok",
+    "link": "https://pay-uat.qi.iq/?outhToken=6ccc2fa1dac12895bc95b37f",
+    "outhToken": "6ccc2fa1dac12895bc95b37f"
+
 }
 ```
 
+### Sample Valid card for the test 
+
+
+
+Field     |  Description
+---------     | -----------
+Card Number   | 5500 0000 0000 0004 
+Expiry Date   | 11/23
+CVV           | 895
